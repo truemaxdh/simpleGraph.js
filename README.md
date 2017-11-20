@@ -1,2 +1,2 @@
 # simpleGraph.js
- -Simple Javascript Graph Module
+Simple Javascript Graph Module
