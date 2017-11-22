@@ -71,6 +71,37 @@ function simpleGraph() {
 		}
 	};
 	
+	this.drawBarGraph = function(canvasID, valueArr) {
+		var canvas = document.getElementById(canvasID);
+		var ctx = canvas.getContext("2d");
+		var w = canvas.width;
+		var h = canvas.height;
+		var lbl_wh = 25;
+		var gr_w = w - lbl_wh;
+		var gr_h = h - lbl_wh;
+		var bar_w = Math.floor(gr_w / valueArr.length);
+		var lPad = lbl_wh + (gr_w - bar_w * valueArr.length) / 2;
+		
+		ctx.lineWidth=2;
+
+		// x, y 축 그리기
+		ctx.beginPath();
+		ctx.moveTo(lbl_wh , 0);
+		ctx.lineTo(lbl_wh , gr_h);
+		ctx.lineTo(w, gr_h);
+		ctx.stroke();
+		
+		// 라벨 쓰기
+		var max = valueArr.reduce(function(a, b) {return a > b ? a : b;});
+		ctx.fillText(max, 7, 14);
+
+		// 막대 그리기
+		for (var i = 0; i < valueArr.length; i++) {
+			ctx.fillStyle = this.colors[i % this.colors.length];
+			ctx.fillRect(lPad + i * bar_w, gr_h, bar_w, - valueArr[i] * gr_h / max);
+		}
+	};
+	
 	this.showColorLabelTable = function(divID, labelArr, limitLen) {
 		strHtml = "<table>";
 		for (var i = 0; i < labelArr.length; i++) {
