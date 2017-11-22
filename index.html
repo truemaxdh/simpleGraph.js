@@ -6,34 +6,53 @@
 <script src="simpleGraph.js"></script>
 </head>
 <body>
-<div class='w800'><h4>시간대별 에러 반환 현황</h4>
-	<canvas id='errRtnGraph' width="500"  height="300"></canvas>
-	<p id='tblErrRtnGraph'></p>
-	<script>
-		var gr = new simpleGraph();
-		var lbl_hour = [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23',];
-		var vals = [	56, 56, 54, 55, 55, 51, 56, 83, 71, 33, 2, 18, 22, 35, 4, 2, 8, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 15, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ];
-		var lbls = [ 'Label1.', 'Label2', 'Label3', 'Label4', 'Label5', 'Label6',];
-		
-		gr.drawLineGraph("errRtnGraph", lbl_hour, vals);
-		gr.showColorLabelTable("tblErrRtnGraph", lbls, 30);
-	</script>
-	</div>
+  <h1>simpleGraph.js samples</h1>
+  <!-- ============= -->
+  <!-- = Bar Graph = -->
+  <!-- ============= -->
+  <div><h4>Bar Graph</h4>
+    <canvas id='BarGraph' width="500"  height="300"></canvas>
+    <p id='tblBarGraph'></p>
+    <script>
+      var gr = new simpleGraph();
+      var vals = [ 723, 37, 127, 25, 809, 610, 109, 1112, ];
+      var lbls = [ 'Label1.', 'Label2', 'Label3', 'Label4', 'Label5', 'Label6', 'Label7', 'Label8',];
+      gr.drawBarGraph("BarGraph", vals);
+      gr.showColorLabelValueTable("tblBarGraph", lbls, 30, vals);
+    </script>
+  </div>
 	
-	<!-- ===================== -->
-	<!-- = 결과표시(에러반환 원그래프) = -->
-	<!-- ===================== -->
-	<div class='w800'><h4>일일 에러 반환 현황</h4>
-	<canvas id='errRtnGraph2' width="300" height="300"></canvas>
-	<p id='tblErrRtnGraph2'></p>
-	<script>
-		//var gr = new simpleGraph();
-		/* var */ vals = [	663, 21, 3, 1, 1, 1, ];
-		/* var */ lbls = [ 'Label1.', 'Label2', 'Label3', 'Label4', 'Label5', 'Label6',];
-		
-		gr.drawPieGraph("errRtnGraph2", vals);
-		gr.showColorLabelValueTable("tblErrRtnGraph2", lbls, 30, vals);
-	</script>
-	</div>
+  <!-- ============== -->
+  <!-- = Line Graph = -->
+  <!-- ============== -->
+  <div><h4>Line Graph</h4>
+    <canvas id='LineGraph' width="500"  height="300"></canvas>
+    <p id='tblLineGraph'></p>
+    <script>
+      //var gr = new simpleGraph();
+      var  lbl_hour = [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23',];
+      /* var */ vals = [ 56, 56, 54, 55, 55, 51, 56, 83, 71, 33, 2, 18, 22, 35, 4, 2, 8, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 15, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ];
+      /* var */ lbls = [ 'Label1.', 'Label2', 'Label3', 'Label4', 'Label5', 'Label6',];
+
+      gr.drawLineGraph("LineGraph", lbl_hour, vals);
+      gr.showColorLabelTable("tblLineGraph", lbls, 30);
+    </script>
+  </div>
+
+  <!-- ============= -->
+  <!-- = Pie Graph = -->
+  <!-- ============= -->
+  <div><h4>Pie Graph</h4>
+    <canvas id='PieGraph' width="300" height="300"></canvas>
+    <p id='tblPieGraph'></p>
+    <script>
+      //var gr = new simpleGraph();
+      /* var */ vals = [ 663, 21, 3, 1, 1, 1, ];
+      /* var */ lbls = [ 'Label1.', 'Label2', 'Label3', 'Label4', 'Label5', 'Label6',];
+
+      gr.drawPieGraph("PieGraph", vals);
+      gr.showColorLabelValueTable("tblPieGraph", lbls, 30, vals);
+    </script>
+  </div>
 </body>
 </html>
