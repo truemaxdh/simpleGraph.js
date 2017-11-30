@@ -1,41 +1,54 @@
-
 function simpleGraph() {
 	this.colors = ["#ff0000", "#00ff00", "#0000ff","#aaaa00", "#00aaaa", "#aa00aa","#ffaaaa", "#aaffaa", "#aaaaff"];
 	this.setColors = function(colors) {
 		this.colors = colors;
 	};
 	
-	this.drawLineGraph = function(canvasID, labelArr, valueArr) {
+	// labelFormat.
+	//    w : left width,
+	//    h : bottom height,
+	//    rotate : bottom label's rotation(radian)
+	this.drawLineGraph = function(canvasID, labelArr, valueArr, labelFormat) {
 		if ((valueArr.length % labelArr.length) != 0)
 			return;
+		
+		var lf = labelFormat ? labelFormat : Object;
+		lf.w ? null : lf.w = 25;
+		lf.h ? null : lf.h = 25;
+		lf.rotate ? null : lf.rotate = 0;
 		
 		var canvas = document.getElementById(canvasID);
 		var ctx = canvas.getContext("2d");
 		var w = canvas.width;
 		var h = canvas.height;
-		var lbl_wh = 25;
-		var gr_w = w - lbl_wh;
-		var gr_h = h - lbl_wh;
-		var bar_w = Math.floor(gr_w / labelArr.length);
-		var lPad = lbl_wh + (gr_w - bar_w * labelArr.length) / 2;
+		var gr_w = w - lf.w;
+		var gr_h = h - lf.h;
+		var bar_w = Math.floor(gr_w / (labelArr.length - 1));
+		var lPad =  lf.w + (gr_w - bar_w * (labelArr.length - 1)) / 2;
 		
 		ctx.lineWidth=2;
 
-		// x, y 축 그리기
+		// draw x, y axis
 		ctx.beginPath();
-		ctx.moveTo(lbl_wh , 0);
-		ctx.lineTo(lbl_wh , gr_h);
+		ctx.moveTo(lf.w , 0);
+		ctx.lineTo(lf.w , gr_h);
 		ctx.lineTo(w, gr_h);
 		ctx.stroke();
 
-		// 라벨 쓰기
+		// write labels
 		var max = valueArr.reduce(function(a, b) {return a > b ? a : b;});
-		for(var i = 0; i < labelArr.length; i++) {
-			ctx.fillText(labelArr[i], (lPad + i * bar_w - 7), h);
-		}
 		ctx.fillText(max, 7, 14);
 		
-		// 선 그리기
+		for(var i = 0; i < labelArr.length; i++) {
+			ctx.save();
+			ctx.translate(lPad + i * bar_w, h);
+			ctx.rotate(lf.rotate);
+			ctx.textAlign = 'center';
+			ctx.fillText(labelArr[i], 0, - lf.h / 2);
+			ctx.restore();
+		}
+		
+		// draw lines
 		var id_color = 0;
 		for (var i = 0; i < valueArr.length; i+=labelArr.length) {
 			ctx.beginPath();
@@ -84,18 +97,18 @@ function simpleGraph() {
 		
 		ctx.lineWidth=2;
 
-		// x, y 축 그리기
+		// draw x, y axis
 		ctx.beginPath();
 		ctx.moveTo(lbl_wh , 0);
 		ctx.lineTo(lbl_wh , gr_h);
 		ctx.lineTo(w, gr_h);
 		ctx.stroke();
 		
-		// 라벨 쓰기
+		// write labels
 		var max = valueArr.reduce(function(a, b) {return a > b ? a : b;});
 		ctx.fillText(max, 7, 14);
 
-		// 막대 그리기
+		// draw bars
 		for (var i = 0; i < valueArr.length; i++) {
 			ctx.fillStyle = this.colors[i % this.colors.length];
 			ctx.fillRect(lPad + i * bar_w, gr_h, bar_w, - valueArr[i] * gr_h / max);
