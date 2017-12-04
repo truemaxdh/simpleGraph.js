@@ -1,9 +1,17 @@
+/***********************************************************
+ * Simple Javascript Graph Library
+ * (c) https://github.com/truemaxdh/simpleGraph.js, 
+ *       truemaxdh@gmail.com
+ ***********************************************************/
 function simpleGraph() {
 	this.colors = ["#ff0000", "#00ff00", "#0000ff","#aaaa00", "#00aaaa", "#aa00aa","#ffaaaa", "#aaffaa", "#aaaaff"];
 	this.setColors = function(colors) {
 		this.colors = colors;
 	};
 	
+	/******************/
+	/** Line graph **/
+	/******************/
 	// labelFormat.
 	//    w : left width,
 	//    h : bottom height,
@@ -41,27 +49,40 @@ function simpleGraph() {
 		
 		for(var i = 0; i < labelArr.length; i++) {
 			ctx.save();
-			ctx.translate(lPad + i * bar_w, h);
+			ctx.translate(lPad + i * bar_w, gr_h + 12);
 			ctx.rotate(lf.rotate);
-			ctx.textAlign = 'center';
-			ctx.fillText(labelArr[i], 0, - lf.h / 2);
+			ctx.textAlign = 'right';
+			ctx.fillText(labelArr[i], 0, 0);
 			ctx.restore();
 		}
 		
 		// draw lines
 		var id_color = 0;
 		for (var i = 0; i < valueArr.length; i+=labelArr.length) {
+			// draw line
 			ctx.beginPath();
 			ctx.moveTo((lPad),(gr_h - valueArr[i] * gr_h / max));
 			for (var j = 1; j < labelArr.length; j++) {
 				ctx.lineTo((lPad + j * bar_w),(gr_h - valueArr[i + j] * gr_h / max));
+			}
+			ctx.strokeStyle = this.colors[id_color % this.colors.length];
+			ctx.stroke();
+
+			// draw circles on line
+			for (var j = 0; j < labelArr.length; j++) {
+				ctx.beginPath();
+				ctx.arc((lPad + j * bar_w),(gr_h - valueArr[i + j] * gr_h / max), 3, 0, 2 * Math.PI, true);
 				ctx.strokeStyle = this.colors[id_color % this.colors.length];
 				ctx.stroke();
-			}			
+			}
+			
 			id_color++;
 		}
 	};
 	
+	/*****************/
+	/** Pie graph **/
+	/*****************/
 	this.drawPieGraph = function(canvasID, valueArr) {
 		var canvas = document.getElementById(canvasID);
 		var ctx = canvas.getContext("2d");
@@ -84,6 +105,9 @@ function simpleGraph() {
 		}
 	};
 	
+	/*****************/
+	/** Bar graph **/
+	/*****************/
 	this.drawBarGraph = function(canvasID, valueArr) {
 		var canvas = document.getElementById(canvasID);
 		var ctx = canvas.getContext("2d");
