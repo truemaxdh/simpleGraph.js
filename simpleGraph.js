@@ -1,8 +1,10 @@
-/***********************************************************
- * Simple Javascript Graph Library
- * (c) https://github.com/truemaxdh/simpleGraph.js, 
- *       truemaxdh@gmail.com
- ***********************************************************/
+/*************************************************************
+ * simpleGraph.js :
+ *    Simple Javascript Graph Library
+ * 
+ *    (c) https://github.com/truemaxdh/simpleGraph.js, 
+ *        truemaxdh@gmail.com
+ *************************************************************/
 function simpleGraph() {
 	this.colors = ["#ff0000", "#00ff00", "#0000ff","#aaaa00", "#00aaaa", "#aa00aa","#ffaaaa", "#aaffaa", "#aaaaff"];
 	this.setColors = function(colors) {
@@ -58,6 +60,8 @@ function simpleGraph() {
 		
 		// draw lines
 		var id_color = 0;
+		ctx.save();
+		ctx.globalAlpha = 0.8;
 		for (var i = 0; i < valueArr.length; i+=labelArr.length) {
 			// draw line
 			ctx.beginPath();
@@ -78,6 +82,7 @@ function simpleGraph() {
 			
 			id_color++;
 		}
+		ctx.restore();
 	};
 	
 	/*****************/
