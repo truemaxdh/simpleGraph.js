@@ -4,36 +4,67 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style>
 .card {
-	border-radius : 15px;
-	border : 2px solid #73AD21;
+	border-radius : 10px;
+	border : 1px solid #999;
 	word-wrap : break-word;
-	font-size : 15px;
-	margin-bottom : 15px;
-	width : 600px;
+	font-size : 16px;
+	margin-bottom : 5px;
+	width : 650px;
+	letter-spacing: 0.5px;
+	padding-left : 10px;
+}
+
+.cta {
+    background-clip: padding-box;
+    border: 2px solid #000000;
+    border-radius: 2px;
+    color: #000000;
+    display: inline-block;
+    font-family: 'Raleway', sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+    height: 36px;
+    letter-spacing: 0.5px;
+    line-height: 36px;
+    /*margin-bottom: 15px;*/
+    /*margin-left : 180px;*/
+    padding: 0 2rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: 0.2s ease-out;
+}
+.cta:hover {
+    background-color: #000000;
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    color: #fff;
+    -moz-box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 </style>
-<script src="simpleGraph.js"></script>
+<script src="https://truemaxdh.github.io/simpleGraph.js/simpleGraph.js"></script>
 </head>
 <body>
-  <h1>simpleGraph.js samples</h1>
+  <h1>
+    simpleGraph.js samples
+    <a class="cta" href="https://github.com/truemaxdh/simpleGraph.js">GitHub</a>
+  </h1>
   <!-- ============= -->
   <!-- = Bar Graph = -->
   <!-- ============= -->
-  <div><h4>Bar Graph</h4>
+  <div><h2>Bar Graph</h2>
     <div class='card'>
-    <xmp>
-    <canvas id='BarGraph' width="500"  height="300"></canvas>
-    <p id='tblBarGraph'></p>
-    <script>
-      var gr = new simpleGraph();
-      var vals = [723, 37, 127, 25, 809, 610];
-      var lbls = ['Label1.', 'Label2', 'Label3', 'Label4', 'Label5', 'Label6'];
-      gr.drawBarGraph("BarGraph", vals);
-      gr.showColorLabelValueTable("tblBarGraph", lbls, 30, vals);
-    </script>
-    </xmp>
-    </div>
-  
+<xmp><script src="https://truemaxdh.github.io/simpleGraph.js/simpleGraph.js">
+</script>
+<canvas id='BarGraph' width="500"  height="300"></canvas>
+<p id='tblBarGraph'></p>
+<script>
+  var gr = new simpleGraph();
+  var vals = [723, 37, 127, 25, 809, 610];
+  var lbls = ['Label1.', 'Label2', 'Label3', 'Label4', 'Label5', 'Label6'];
+  gr.drawBarGraph("BarGraph", vals);
+  gr.showColorLabelValueTable("tblBarGraph", lbls, 30, vals);
+</script></xmp>
+    </div>  
     <canvas id='BarGraph' width="500"  height="300"></canvas>
     <p id='tblBarGraph'></p>
     <script>
@@ -44,28 +75,29 @@
       gr.showColorLabelValueTable("tblBarGraph", lbls, 30, vals);
     </script>
   </div>
-	
+	<p>&nbsp;</p>
+  
   <!-- ============== -->
   <!-- = Line Graph = -->
   <!-- ============== -->
-  <div><h4>Line Graph</h4>
+  <div><h2>Line Graph</h2>
     <div class='card'>
-    <xmp> 
-    <canvas id='LineGraph' width="500"  height="300"></canvas>
-    <p id='tblLineGraph'></p>
-    <script>
-      var gr = new simpleGraph();
-      var lbl_hour = [ '1', '2', '3', '4', '5', '6',];
-      var vals = [ 56, 56, 54, 55, 55, 51, 
-                   56, 83, 71, 33,  2, 18, 
-                    0,  0,  0,  0,  0,  3,  
-                    0,  0,  0,  0, 15,  0,];
-      var lbls = [ 'Label1.', 'Label2', 'Label3', 'Label4',];
+<xmp><script src="https://truemaxdh.github.io/simpleGraph.js/simpleGraph.js">
+</script>
+<canvas id='LineGraph' width="500"  height="300"></canvas>
+<p id='tblLineGraph'></p>
+<script>
+  var gr = new simpleGraph();
+  var lbl_hour = [ '1', '2', '3', '4', '5', '6',];
+  var vals = [ 56, 56, 54, 55, 55, 51, 
+               56, 83, 71, 33,  2, 18, 
+                0,  0,  0,  0,  0,  3,  
+                0,  0,  0,  0, 15,  0,];
+  var lbls = [ 'Label1.', 'Label2', 'Label3', 'Label4',];
 
-      gr.drawLineGraph("LineGraph", lbl_hour, vals);
-      gr.showColorLabelTable("tblLineGraph", lbls, 30);
-    </script>
-    </xmp>
+  gr.drawLineGraph("LineGraph", lbl_hour, vals);
+  gr.showColorLabelTable("tblLineGraph", lbls, 30);
+</script></xmp>
     </div>
     <canvas id='LineGraph' width="500"  height="300"></canvas>
     <p id='tblLineGraph'></p>
@@ -80,25 +112,58 @@
       gr.drawLineGraph("LineGraph", lbl_hour, vals);
       gr.showColorLabelTable("tblLineGraph", lbls, 30);
     </script>
+    <p>&nbsp;</p>
+    <div class='card'>
+<xmp><script src="https://truemaxdh.github.io/simpleGraph.js/simpleGraph.js">
+</script>
+<canvas id='LineGraph2' width="500"  height="300"></canvas>
+<p id='tblLineGraph2'></p>
+<script>
+  var gr = new simpleGraph();
+  var lbl_day = [ '20171201', '20171202', '20171203', '20171204',
+   '20171205', '20171206', '20171207', '20171208',];
+  var vals = [	61, 23, 21, 36, 66, 50, 35,  7, 
+                44,  2,  0, 34, 51, 31, 20, 12, 
+                 7,  1,  5,  2, 11,  5,  1,  0, 
+                87, 27, 24, 60,103, 77, 52, 10, ];
+  var lbls = [ 'Label1.', 'Label2', 'Label3', 'Label4',];
+  
+  gr.drawLineGraph("LineGraph2", lbl_day, vals1, 
+                   {rotate : Math.PI * -30 / 180, w : 45, h : 40});
+  gr.showColorLabelTable("tblLineGraph", lbls1, 30);
+</script></xmp>  
+    </div>
+	  <canvas id='LineGraph2' width="500"  height="300"></canvas>
+	  <p id='tblLineGraph2'></p>
+	  <script>
+		  //var gr = new simpleGraph();
+		  var lbl_day = [ '20171201', '20171202', '20171203', '20171204', '20171205', '20171206', '20171207', '20171208',];
+		  vals = [	61, 23, 21, 36, 66, 50, 35, 7, 44, 2, 0, 34, 51, 31, 20, 12, 7, 1, 5, 2, 11, 5, 1, 0, 87, 27, 24, 60, 103, 77, 52, 10, ];
+		  lbls = [ 'Label1.', 'Label2', 'Label3', 'Label4',];
+		
+		  gr.drawLineGraph("LineGraph2", lbl_day, vals, {rotate : Math.PI * -30 / 180, w : 45, h : 40});
+		  gr.showColorLabelTable("tblLineGraph2", lbls, 30);
+	  </script>
   </div>
-
+  <p>&nbsp;</p> 
+  
   <!-- ============= -->
   <!-- = Pie Graph = -->
   <!-- ============= -->
-  <div><h4>Pie Graph</h4>
+  <div><h2>Pie Graph</h2>
     <div class='card'>
-    <xmp> 
-    <canvas id='PieGraph' width="300" height="300"></canvas>
-    <p id='tblPieGraph'></p>
-    <script>
-      var gr = new simpleGraph();
-      var vals = [663, 21, 3, 1, 1, 1, ];
-      var lbls = ['Label1.', 'Label2', 'Label3', 'Label4', 'Label5', 'Label6'];
+<xmp><script src="https://truemaxdh.github.io/simpleGraph.js/simpleGraph.js">
+</script>
+<canvas id='PieGraph' width="300" height="300"></canvas>
+<p id='tblPieGraph'></p>
+<script>
+  var gr = new simpleGraph();
+  var vals = [663, 21, 3, 1, 1, 1, ];
+  var lbls = ['Label1.', 'Label2', 'Label3', 'Label4', 'Label5', 'Label6'];
 
-      gr.drawPieGraph("PieGraph", vals);
-      gr.showColorLabelValueTable("tblPieGraph", lbls, 30, vals);
-    </script>
-    </xmp>
+  gr.drawPieGraph("PieGraph", vals);
+  gr.showColorLabelValueTable("tblPieGraph", lbls, 30, vals);
+</script></xmp>
     </div>
     <canvas id='PieGraph' width="300" height="300"></canvas>
     <p id='tblPieGraph'></p>
