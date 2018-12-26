@@ -5,8 +5,29 @@
  *    (c) https://github.com/truemaxdh/simpleGraph.js, 
  *        truemaxdh@gmail.com
  *************************************************************/
+var tag = document.createElement("div");
+tag.style = "border:1px solid black;position:absolute;" +
+            "background-color:#333;color:#fff;font-weight:bold;" +
+            "border-radius:5px;padding:3px;";
+
+
+function emphasize(evt, obj, lbl, val) {
+  obj.style.fillOpacity=1.0;
+  obj.parentNode.parentNode.appendChild(tag);
+  tag.style.left = evt.pageX;
+  tag.style.top = evt.pageY;
+  tag.innerHTML = lbl + "<br>" + val;
+}
+
+function getBack(obj) {
+  obj.style.fillOpacity=0.7;
+  obj.parentNode.parentNode.removeChild(tag);
+}
+
+
+
 function simpleGraph() {
-	this.colors = ["#ff0000", "#00ff00", "#0000ff","#aaaa00", "#00aaaa", "#aa00aa","#ffaaaa", "#aaffaa", "#aaaaff"];
+	this.colors = ["#ff2200", "#22ff00", "#1111ff","#aaaa00", "#00aaaa", "#aa00aa","#ffaaaa", "#aaffaa", "#aaaaff"];
 	this.setColors = function(colors) {
 		this.colors = colors;
 	};
@@ -113,35 +134,46 @@ function simpleGraph() {
 	/*****************/
 	/** Bar graph **/
 	/*****************/
-	this.drawBarGraph = function(canvasID, valueArr) {
-		var canvas = document.getElementById(canvasID);
-		var ctx = canvas.getContext("2d");
-		var w = canvas.width;
-		var h = canvas.height;
+	this.drawBarGraph = function(divID, labelArr, valueArr) {
+		var oDiv = document.getElementById(divID);
+		var w = oDiv.offsetWidth;
+		var h = oDiv.offsetHeight;
 		var lbl_wh = 25;
 		var gr_w = w - lbl_wh;
 		var gr_h = h - lbl_wh;
-		var bar_w = Math.floor(gr_w / valueArr.length);
-		var lPad = lbl_wh + (gr_w - bar_w * valueArr.length) / 2;
+		var col_w = Math.floor(gr_w / valueArr.length);
+		var lPad = lbl_wh + (gr_w - col_w * valueArr.length) / 2;
 		
-		ctx.lineWidth=2;
-
+		var svg = "<svg width='" + w + "' height='" + h + "'>";
 		// draw x, y axis
-		ctx.beginPath();
-		ctx.moveTo(lbl_wh , 0);
-		ctx.lineTo(lbl_wh , gr_h);
-		ctx.lineTo(w, gr_h);
-		ctx.stroke();
+		svg +=    "  <line x1='" + lbl_wh + "' y1='0' x2='" + lbl_wh + "' y2='" + gr_h + "' style='stroke:rgb(5,5,5);stroke-width:1' />";
+		svg +=    "  <line x1='" + lbl_wh + "' y1='" + gr_h + "' x2='" + w + "' y2='" + gr_h + "' style='stroke:rgb(5,5,5);stroke-width:1' />";
+    
+    // write labels
+    var max = valueArr.reduce(function(a, b) {return a > b ? a : b;});
+    svg +=    "  <text x='0' y='14' fill='black'>" + max + "</text>";
+    
+    // draw bars
+		for (var i = 0; i < valueArr.length; i++) {
+      var bar_h = valueArr[i] * gr_h / max;
+      var bar_x = lPad + i * col_w + col_w * 0.05; 
+			svg +=    "  <rect fill-opacity='0.7' x='" + bar_x + "' y='" + (gr_h - bar_h) + "' " +
+                "        width='" + (col_w * 0.9)  + "' height='" + bar_h + "' " +
+                "        style='fill:" + this.colors[i % this.colors.length] +";' " +
+                "        onmouseover='emphasize(event, this, \"" + labelArr[i] + "\", " + valueArr[i] + ");' onmouseout='getBack(this);' />";
+		}
+    svg +=    "</svg>";
+		oDiv.innerHTML = svg;
 		
-		// write labels
-		var max = valueArr.reduce(function(a, b) {return a > b ? a : b;});
-		ctx.fillText(max, 7, 14);
+		
+		/*var ctx = canvas.getContext("2d");
+		
 
 		// draw bars
 		for (var i = 0; i < valueArr.length; i++) {
 			ctx.fillStyle = this.colors[i % this.colors.length];
 			ctx.fillRect(lPad + i * bar_w, gr_h, bar_w, - valueArr[i] * gr_h / max);
-		}
+		}*/
 	};
 	
 	this.showColorLabelTable = function(divID, labelArr, limitLen) {
