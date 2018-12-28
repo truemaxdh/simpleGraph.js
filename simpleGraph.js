@@ -24,7 +24,25 @@ function getBack(obj) {
   obj.parentNode.parentNode.removeChild(tag);
 }
 
+function emphasizeLine(clsName) {
+  var clsObjs = document.getElementsByClassName(clsName);
+  Array.from(clsObjs).forEach(function (item, idx) {item.style.strokeWidth=2});
+}
 
+function getBackLine(clsName) {
+  var clsObjs = document.getElementsByClassName(clsName);
+  Array.from(clsObjs).forEach(function (item, idx) {item.style.strokeWidth=1});
+}
+
+function emphasizePoint(evt, obj, lbl, val, clsName) {
+  emphasize(evt, obj, lbl, val);
+  emphasizeLine(clsName);
+}
+
+function getBackPoint(obj, clsName) {
+  getBack(obj);
+  getBackLine(clsName);
+}
 
 function simpleGraph() {
 	this.colors = ["#ff2200", "#22ff00", "#1111ff","#aaaa00", "#00aaaa", "#aa00aa","#ffaaaa", "#aaffaa", "#aaaaff"];
@@ -39,7 +57,7 @@ function simpleGraph() {
 	//    w : left width,
 	//    h : bottom height,
 	//    rotate : bottom label's rotation(radian)
-	this.drawLineGraph = function(canvasID, labelArr, valueArr, labelFormat) {
+	this.drawLineGraph = function(divID, labelArr, valueArr, labelFormat) {
 		if ((valueArr.length % labelArr.length) != 0)
 			return;
 		
@@ -48,87 +66,101 @@ function simpleGraph() {
 		lf.h ? null : lf.h = 25;
 		lf.rotate ? null : lf.rotate = 0;
 		
-		var canvas = document.getElementById(canvasID);
-		var ctx = canvas.getContext("2d");
-		var w = canvas.width;
-		var h = canvas.height;
+		var oDiv = document.getElementById(divID);
+		var w = oDiv.offsetWidth;
+		var h = oDiv.offsetHeight;
 		var gr_w = w - lf.w;
 		var gr_h = h - lf.h;
 		var bar_w = Math.floor(gr_w / (labelArr.length - 1));
 		var lPad =  lf.w + (gr_w - bar_w * (labelArr.length - 1)) / 2;
-		
-		ctx.lineWidth=2;
 
+		var svg = "<svg width='" + w + "' height='" + h + "'>";
+		
 		// draw x, y axis
-		ctx.beginPath();
-		ctx.moveTo(lf.w , 0);
-		ctx.lineTo(lf.w , gr_h);
-		ctx.lineTo(w, gr_h);
-		ctx.stroke();
-
-		// write labels
-		var max = valueArr.reduce(function(a, b) {return a > b ? a : b;});
-		ctx.fillText(max, 7, 14);
+		svg += "  <polyline points='" + lf.w + " 0, " + lf.w + " " + gr_h + ", " + w + ", " + gr_h + "' " +
+           "     stroke='#050505' fill='transparent' stroke-width='1' />";
 		
-		for(var i = 0; i < labelArr.length; i++) {
-			ctx.save();
-			ctx.translate(lPad + i * bar_w, gr_h + 12);
-			ctx.rotate(lf.rotate);
-			ctx.textAlign = 'right';
-			ctx.fillText(labelArr[i], 0, 0);
-			ctx.restore();
-		}
+    // write labels
+    var max = valueArr.reduce(function(a, b) {return a > b ? a : b;});
+    svg += "  <text x='0' y='14' fill='black'>" + max + "</text>";
+    
+    for(var i = 0; i < labelArr.length; i++) {
+      svg += "  <g transform='translate(" + (lPad + i * bar_w) + "," + (gr_h + 12) + ")'>";
+      svg += "  <g transform='rotate(" + lf.rotate + ")'>";
+			svg += "  <text x='0' y='0' fill='black' text-anchor='end' style='font-size:12px'>" + labelArr[i] + "</text>";
+			svg += "  </g></g>";
+		}		
 		
-		// draw lines
+    // draw lines & circles
 		var id_color = 0;
-		ctx.save();
-		ctx.globalAlpha = 0.8;
+		var svg_pt = "";
+			
 		for (var i = 0; i < valueArr.length; i+=labelArr.length) {
 			// draw line
-			ctx.beginPath();
-			ctx.moveTo((lPad),(gr_h - valueArr[i] * gr_h / max));
+			var svg_line = "";
+			
+			var x1 = lPad;
+			var y1 = gr_h - valueArr[i] * gr_h / max;
+			svg_pt += "  <circle class='" + divID + i + "' cx='" + x1 + "' cy='" + y1 + "' r='4' " +
+               "   stroke='" + this.colors[id_color] + "' fill='white' stroke-width='1' " +
+               "   onmouseover='emphasizePoint(event, this, \"" + labelArr[0] + "\", " + valueArr[i] + ", \"" + (divID + i) + "\");' " +
+               "   onmouseout='getBackPoint(this,  \"" + (divID + i) + "\");' />";
 			for (var j = 1; j < labelArr.length; j++) {
-				ctx.lineTo((lPad + j * bar_w),(gr_h - valueArr[i + j] * gr_h / max));
-			}
-			ctx.strokeStyle = this.colors[id_color % this.colors.length];
-			ctx.stroke();
-
-			// draw circles on line
-			for (var j = 0; j < labelArr.length; j++) {
-				ctx.beginPath();
-				ctx.arc((lPad + j * bar_w),(gr_h - valueArr[i + j] * gr_h / max), 3, 0, 2 * Math.PI, true);
-				ctx.strokeStyle = this.colors[id_color % this.colors.length];
-				ctx.stroke();
+        var x2 = (lPad + j * bar_w);
+        var y2 = (gr_h - valueArr[i + j] * gr_h / max);
+        // draw line
+        svg +=    "  <line class='" + divID + i + "' x1='" + x1 + "' y1='" + y1 + "' x2='" + x2 + "' y2='" + y2 + "' " +
+                  "   style='stroke:" + this.colors[id_color % this.colors.length] + ";stroke-width:1' " +
+                  "   onmouseover='emphasizeLine(\"" + divID + i + "\");' onmouseout='getBackLine(\"" + divID + i + "\");' />";
+				x1 = x2;
+				y1 = y2;
+				
+				// draw circle
+				svg_pt += "  <circle class='" + divID + i + "' cx='" + x2 + "' cy='" + y2 + "' r='4' " +
+               "   stroke='" + this.colors[id_color % this.colors.length] + "' fill='white' stroke-width='1' " +
+               "   onmouseover='emphasizePoint(event, this, \"" + labelArr[j] + "\", " + valueArr[i+j] + ", \"" + (divID + i) + "\");' " +
+               "   onmouseout='getBackPoint(this,  \"" + (divID + i) + "\");' />";
 			}
 			
 			id_color++;
 		}
-		ctx.restore();
+		svg += svg_pt;
+    svg +=    "</svg>";
+		oDiv.innerHTML = svg;
+		
 	};
 	
 	/*****************/
 	/** Pie graph **/
 	/*****************/
-	this.drawPieGraph = function(canvasID, valueArr) {
-		var canvas = document.getElementById(canvasID);
-		var ctx = canvas.getContext("2d");
-		var w = canvas.width;
-		var h = canvas.height;
+	this.drawPieGraph = function(divID, labelArr, valueArr) {
+		var oDiv = document.getElementById(divID);
+		var w = oDiv.offsetWidth;
+		var h = oDiv.offsetHeight;
+		var r = (w < h ? w : h) / 2;
 		var tot = valueArr.reduce(function(a, b) {return a + b;});
 		var radSta = 0;
+		var staPtX = w;
+		var staPtY = h / 2;
+		var svg = "<svg width='" + w + "' height='" + h + "'>";
 		for (var i = 0; i < valueArr.length; i++) {
-			var radEnd = radSta + 2 * Math.PI * valueArr[i] / tot;
-			ctx.beginPath();
-			ctx.arc(w / 2, h / 2, (w < h ? w : h) / 2, radSta, radEnd);
-			ctx.lineTo(w / 2, h / 2);
-			ctx.closePath();
-			ctx.lineWidth = 1;
-			ctx.fillStyle = this.colors[i % this.colors.length];
-			ctx.fill();
-			ctx.strokeStyle = "#550000";
-			ctx.stroke();
+      var per = valueArr[i] / tot;
+      var radEnd = radSta + 2 * Math.PI * per;
+      var endPtX = w / 2 + r * Math.cos(radEnd);
+      var endPtY = h / 2 + r * Math.sin(radEnd);
+      var flag1 = (per > 0.5) ? 1 : 0;
+      
+      svg += "  <path fill-opacity='0.7' d='M" + staPtX + " " + staPtY + 
+             "           A " + r + " " + r + ", 0, " + flag1 + ", 1, " + endPtX + " " + endPtY +
+             "           L " + (w / 2) + " " + (h / 2) + 
+             "           Z' fill='" + this.colors[i % this.colors.length] + "' " + 
+             "        onmouseover='emphasize(event, this, \"" + labelArr[i] + "\", " + valueArr[i] + ");' onmouseout='getBack(this);' />";
+			staPtX = endPtX;
+			staPtY = endPtY;
 			radSta = radEnd;
 		}
+		svg +=    "</svg>";
+		oDiv.innerHTML = svg;
 	};
 	
 	/*****************/
