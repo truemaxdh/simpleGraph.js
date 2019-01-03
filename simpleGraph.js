@@ -80,18 +80,23 @@ function simpleGraph() {
 		svg += "  <polyline points='" + lf.w + " 0, " + lf.w + " " + gr_h + ", " + w + ", " + gr_h + "' " +
            "     stroke='#050505' fill='transparent' stroke-width='1' />";
 		
-    // write labels
-    var max = valueArr.reduce(function(a, b) {return a > b ? a : b;});
-    svg += "  <text x='0' y='14' fill='black'>" + max + "</text>";
-    
-    for(var i = 0; i < labelArr.length; i++) {
-      svg += "  <g transform='translate(" + (lPad + i * bar_w) + "," + (gr_h + 12) + ")'>";
-      svg += "  <g transform='rotate(" + lf.rotate + ")'>";
+	    // write labels
+		var max = 1;
+	    try {
+	    	max = valueArr.reduce(function(a, b) {return a > b ? a : b;});	
+	    } catch(ex) {}
+		max = (max <= 0) ? 1: max;
+	    
+		svg += "  <text x='0' y='14' fill='black'>" + max + "</text>";
+	    
+		for(var i = 0; i < labelArr.length; i++) {
+			svg += "  <g transform='translate(" + (lPad + i * bar_w) + "," + (gr_h + 12) + ")'>";
+			svg += "  <g transform='rotate(" + lf.rotate + ")'>";
 			svg += "  <text x='0' y='0' fill='black' text-anchor='end' style='font-size:12px'>" + labelArr[i] + "</text>";
 			svg += "  </g></g>";
 		}		
 		
-    // draw lines & circles
+		// draw lines & circles
 		var id_color = 0;
 		var svg_pt = "";
 			
@@ -106,26 +111,26 @@ function simpleGraph() {
                "   onmouseover='emphasizePoint(event, this, \"" + labelArr[0] + "\", " + valueArr[i] + ", \"" + (divID + i) + "\");' " +
                "   onmouseout='getBackPoint(this,  \"" + (divID + i) + "\");' />";
 			for (var j = 1; j < labelArr.length; j++) {
-        var x2 = (lPad + j * bar_w);
-        var y2 = (gr_h - valueArr[i + j] * gr_h / max);
-        // draw line
-        svg +=    "  <line class='" + divID + i + "' x1='" + x1 + "' y1='" + y1 + "' x2='" + x2 + "' y2='" + y2 + "' " +
-                  "   style='stroke:" + this.colors[id_color % this.colors.length] + ";stroke-width:1' " +
-                  "   onmouseover='emphasizeLine(\"" + divID + i + "\");' onmouseout='getBackLine(\"" + divID + i + "\");' />";
+				var x2 = (lPad + j * bar_w);
+				var y2 = (gr_h - valueArr[i + j] * gr_h / max);
+				// draw line
+				svg +=    "  <line class='" + divID + i + "' x1='" + x1 + "' y1='" + y1 + "' x2='" + x2 + "' y2='" + y2 + "' " +
+				"   style='stroke:" + this.colors[id_color % this.colors.length] + ";stroke-width:1' " +
+				"   onmouseover='emphasizeLine(\"" + divID + i + "\");' onmouseout='getBackLine(\"" + divID + i + "\");' />";
 				x1 = x2;
 				y1 = y2;
 				
 				// draw circle
 				svg_pt += "  <circle class='" + divID + i + "' cx='" + x2 + "' cy='" + y2 + "' r='4' " +
-               "   stroke='" + this.colors[id_color % this.colors.length] + "' fill='white' stroke-width='1' " +
-               "   onmouseover='emphasizePoint(event, this, \"" + labelArr[j] + "\", " + valueArr[i+j] + ", \"" + (divID + i) + "\");' " +
-               "   onmouseout='getBackPoint(this,  \"" + (divID + i) + "\");' />";
+				"   stroke='" + this.colors[id_color % this.colors.length] + "' fill='white' stroke-width='1' " +
+				"   onmouseover='emphasizePoint(event, this, \"" + labelArr[j] + "\", " + valueArr[i+j] + ", \"" + (divID + i) + "\");' " +
+				"   onmouseout='getBackPoint(this,  \"" + (divID + i) + "\");' />";
 			}
 			
 			id_color++;
 		}
 		svg += svg_pt;
-    svg +=    "</svg>";
+		svg +=    "</svg>";
 		oDiv.innerHTML = svg;
 		
 	};
@@ -138,23 +143,29 @@ function simpleGraph() {
 		var w = oDiv.offsetWidth;
 		var h = oDiv.offsetHeight;
 		var r = (w < h ? w : h) / 2;
-		var tot = valueArr.reduce(function(a, b) {return a + b;});
+		var tot = 1;
+		try {
+			tot = valueArr.reduce(function(a, b) {return a + b;});	
+		} catch(ex) {}
+		tot = (tot <= 0) ? 1: tot;
 		var radSta = 0;
 		var staPtX = w;
 		var staPtY = h / 2;
 		var svg = "<svg width='" + w + "' height='" + h + "'>";
 		for (var i = 0; i < valueArr.length; i++) {
-      var per = valueArr[i] / tot;
-      var radEnd = radSta + 2 * Math.PI * per;
-      var endPtX = w / 2 + r * Math.cos(radEnd);
-      var endPtY = h / 2 + r * Math.sin(radEnd);
-      var flag1 = (per > 0.5) ? 1 : 0;
+			var per = valueArr[i] / tot;
+			per = (per == 1) ? 0.9999: per;
+	
+			var radEnd = radSta + 2 * Math.PI * per;
+			var endPtX = w / 2 + r * Math.cos(radEnd);
+			var endPtY = h / 2 + r * Math.sin(radEnd);
+			var flag1 = (per > 0.5) ? 1 : 0;
       
-      svg += "  <path fill-opacity='0.7' d='M" + staPtX + " " + staPtY + 
-             "           A " + r + " " + r + ", 0, " + flag1 + ", 1, " + endPtX + " " + endPtY +
-             "           L " + (w / 2) + " " + (h / 2) + 
-             "           Z' fill='" + this.colors[i % this.colors.length] + "' " + 
-             "        onmouseover='emphasize(event, this, \"" + labelArr[i] + "\", " + valueArr[i] + ");' onmouseout='getBack(this);' />";
+			svg += "  <path fill-opacity='0.7' d='M" + staPtX + " " + staPtY + 
+			"           A " + r + " " + r + ", 0, " + flag1 + ", 1, " + endPtX + " " + endPtY +
+			"           L " + (w / 2) + " " + (h / 2) + 
+			"           Z' fill='" + this.colors[i % this.colors.length] + "' " + 
+			"        onmouseover='emphasize(event, this, \"" + labelArr[i] + "\", " + valueArr[i] + ");' onmouseout='getBack(this);' />";
 			staPtX = endPtX;
 			staPtY = endPtY;
 			radSta = radEnd;
@@ -181,31 +192,26 @@ function simpleGraph() {
 		svg +=    "  <line x1='" + lbl_wh + "' y1='0' x2='" + lbl_wh + "' y2='" + gr_h + "' style='stroke:rgb(5,5,5);stroke-width:1' />";
 		svg +=    "  <line x1='" + lbl_wh + "' y1='" + gr_h + "' x2='" + w + "' y2='" + gr_h + "' style='stroke:rgb(5,5,5);stroke-width:1' />";
     
-    // write labels
-    var max = valueArr.reduce(function(a, b) {return a > b ? a : b;});
-    svg +=    "  <text x='0' y='14' fill='black'>" + max + "</text>";
+		// write labels
+		var max = 1;
+		try {
+			max = valueArr.reduce(function(a, b) {return a > b ? a : b;});
+		} catch(ex) {}
+		max = (max <= 0) ? 1: max;
     
-    // draw bars
-		for (var i = 0; i < valueArr.length; i++) {
-      var bar_h = valueArr[i] * gr_h / max;
-      var bar_x = lPad + i * col_w + col_w * 0.05; 
-			svg +=    "  <rect fill-opacity='0.7' x='" + bar_x + "' y='" + (gr_h - bar_h) + "' " +
-                "        width='" + (col_w * 0.9)  + "' height='" + bar_h + "' " +
-                "        style='fill:" + this.colors[i % this.colors.length] +";' " +
-                "        onmouseover='emphasize(event, this, \"" + labelArr[i] + "\", " + valueArr[i] + ");' onmouseout='getBack(this);' />";
-		}
-    svg +=    "</svg>";
-		oDiv.innerHTML = svg;
-		
-		
-		/*var ctx = canvas.getContext("2d");
-		
-
+		svg +=    "  <text x='0' y='14' fill='black'>" + max + "</text>";
+    
 		// draw bars
 		for (var i = 0; i < valueArr.length; i++) {
-			ctx.fillStyle = this.colors[i % this.colors.length];
-			ctx.fillRect(lPad + i * bar_w, gr_h, bar_w, - valueArr[i] * gr_h / max);
-		}*/
+			var bar_h = valueArr[i] * gr_h / max;
+			var bar_x = lPad + i * col_w + col_w * 0.05; 
+			svg +=    "  <rect fill-opacity='0.7' x='" + bar_x + "' y='" + (gr_h - bar_h) + "' " +
+			"        width='" + (col_w * 0.9)  + "' height='" + bar_h + "' " +
+			"        style='fill:" + this.colors[i % this.colors.length] +";' " +
+			"        onmouseover='emphasize(event, this, \"" + labelArr[i] + "\", " + valueArr[i] + ");' onmouseout='getBack(this);' />";
+		}
+		svg +=    "</svg>";
+		oDiv.innerHTML = svg;
 	};
 	
 	this.showColorLabelTable = function(divID, labelArr, limitLen) {
