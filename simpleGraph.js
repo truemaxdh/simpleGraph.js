@@ -45,7 +45,8 @@ function getBackPoint(obj, clsName) {
 }
 
 function simpleGraph() {
-	this.colors = ["#ff2200", "#22ff00", "#1111ff","#aaaa00", "#00aaaa", "#aa00aa","#ffaaaa", "#aaffaa", "#aaaaff"];
+	/*this.colors = ["#ff2200", "#22ff00", "#1111ff","#aaaa00", "#00aaaa", "#aa00aa","#ffaaaa", "#aaffaa", "#aaaaff"];*/
+	this.colors = [ "orange", "skyblue", "cyan", "magenta", "navy", "purple", "red", "green", "blue", "yellow"];
 	this.setColors = function(colors) {
 		this.colors = colors;
 	};
@@ -215,10 +216,10 @@ function simpleGraph() {
 	};
 	
 	this.showColorLabelTable = function(divID, labelArr, limitLen) {
-		strHtml = "<table>";
+		strHtml = "<table style='font-weight:bold; font-size:13px'>";
 		for (var i = 0; i < labelArr.length; i++) {
-			strHtml += "<tr><td bgcolor='" + this.colors[i] + "'>&nbsp;</td>";
-			strHtml += "<td>" + (labelArr[i].length > limitLen ? labelArr[i].substring(0, limitLen) : labelArr[i]) + "</td>";
+			strHtml += "<tr height='15'><td width='20' style='border:0px;'></td><td style='border:0px;width:25px;border-radius:8px;' bgcolor='" + this.colors[i] + "'></td>";
+			strHtml += "<td style='border:0px;color:#555;'>" + (labelArr[i].length > limitLen ? labelArr[i].substring(0, limitLen) : labelArr[i]) + "</td>";
 		}
 		strHtml += "</table>";
 		var div = document.getElementById(divID);
@@ -229,11 +230,11 @@ function simpleGraph() {
 		if (labelArr.length != valueArr.length)
 			return;
 		
-		strHtml = "<table>";
+		strHtml = "<table style='font-weight:bold; font-size:13px'>";
 		for (var i = 0; i < labelArr.length; i++) {
-			strHtml += "<tr><td bgcolor='" + this.colors[i] + "'>&nbsp;</td>";
-			strHtml += "<td>" + (labelArr[i].length > limitLen ? labelArr[i].substring(0, limitLen) : labelArr[i]) + "</td>";
-			strHtml += "<td>(" + valueArr[i] + ")</td></tr>";
+			strHtml += "<tr height='15'><td width='20' style='border:0px;'></td><td style='border:0px;width:25px;border-radius:8px;' bgcolor='" + this.colors[i] + "'></td>";
+			strHtml += "<td style='border:0px;color:#333;' >" + (labelArr[i].length > limitLen ? labelArr[i].substring(0, limitLen) : labelArr[i]) + "</td>";
+			strHtml += "<td style='border:0px;color:#555;' >" + valueArr[i] + "</td></tr>";
 		}
 		strHtml += "</table>";
 		var div = document.getElementById(divID);
