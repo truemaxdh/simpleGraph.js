@@ -1,0 +1,212 @@
+<html>
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-81183833-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-81183833-2');
+  </script>
+  
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>SimpleGraph.JS - Chart Utility</title>
+	<meta name="description" content="A Javascript Graph Utility for Line Graph, Pie Graph, etc." />
+  
+  <link rel="icon" href="https://truemaxdh.github.io/icon.png" type="image/png">
+  <link rel="stylesheet" href="https://truemaxdh.github.io/Style/skin.css">
+  <style>
+  .card {
+    border-radius : 10px;
+    border : 1px solid #999;
+    word-wrap : break-word;
+    font-size : 16px;
+    margin-bottom : 5px;
+    width : 650px;
+    letter-spacing: 0.5px;
+    padding-left : 10px;
+  }
+
+  .cta {
+      background-clip: padding-box;
+      border: 2px solid #000000;
+      border-radius: 2px;
+      color: #000000;
+      display: inline-block;
+      font-family: 'Raleway', sans-serif;
+      font-size: 17px;
+      font-weight: 400;
+      height: 36px;
+      letter-spacing: 0.5px;
+      line-height: 36px;
+      /*margin-bottom: 15px;*/
+      /*margin-left : 180px;*/
+      padding: 0 2rem;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: 0.2s ease-out;
+  }
+  .cta:hover {
+      background-color: #000000;
+      box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      color: #fff;
+      -moz-box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      -webkit-box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  </style>
+
+  <script src="https://truemaxdh.github.io/simpleGraph.js/simpleGraph.js"></script>
+  <!-- <script src="simpleGraph.js"></script> -->
+</head>
+<body>
+  <script>var cookieBread = ">Utility>simpleGraph.js";</script>
+  <script src="https://truemaxdh.github.io/Include/header.js"></script>
+
+  <h1>
+    simpleGraph.js samples
+    <a class="cta" href="https://github.com/truemaxdh/simpleGraph.js">GitHub</a>
+  </h1>
+  <!-- ============= -->
+  <!-- = Bar Graph = -->
+  <!-- ============= -->
+  <div><h2>Bar Graph</h2>
+    <div class='card'>
+    <xmp><script src="https://truemaxdh.github.io/simpleGraph.js/simpleGraph.js">
+    </script>
+    <div id='BarGraph' style="width:500; height:300;"></div>
+    <p id='tblBarGraph'></p>
+    <script>
+      var gr = new simpleGraph();
+      var vals = [723, 37, 127, 25, 809, 610];
+      var lbls = ['label1', 'label2', 'label3', 'label4', 'label5', 'label6'];
+      gr.drawBarGraph("BarGraph", lbls, vals);
+      gr.showColorLabelValueTable("tblBarGraph", lbls, 30, vals);
+    </script></xmp>
+    </div>  
+    <div id='BarGraph' style="width:500; height:300;"></div>
+    <p id='tblBarGraph'></p>
+    <script>
+      var gr = new simpleGraph();
+      var vals = [723, 37, 127, 25, 809, 610];
+      var lbls = ['label1', 'label2', 'label3', 'label4', 'label5', 'label6'];
+      gr.drawBarGraph("BarGraph", lbls, vals);
+      gr.showColorLabelValueTable("tblBarGraph", lbls, 30, vals);
+    </script>
+  </div>
+	<p>&nbsp;</p>
+  
+  <!-- ============== -->
+  <!-- = Line Graph = -->
+  <!-- ============== -->
+  <div><h2>Line Graph</h2>
+    <div class='card'>
+<xmp><script src="https://truemaxdh.github.io/simpleGraph.js/simpleGraph.js">
+</script>
+<div id='LineGraph' style="width:500; height:300;"></div>
+<p id='tblLineGraph'></p>
+<script>
+  var gr = new simpleGraph();
+  var lbl_hour = [ '1', '2', '3', '4', '5', '6',];
+  var vals = [ 56, 56, 54, 55, 55, 51, 
+               56, 83, 71, 33,  2, 18, 
+                0,  0,  0,  0,  0,  3,  
+                0,  0,  0,  0, 15,  0,];
+  var lbls = [ 'Label1.', 'Label2', 'Label3', 'Label4',];
+
+  gr.drawLineGraph("LineGraph", lbl_hour, vals);
+  gr.showColorLabelTable("tblLineGraph", lbls, 30);
+</script></xmp>
+    </div>
+    <div id='LineGraph' style="width:500; height:300;"></div>
+    <p id='tblLineGraph'></p>
+    <script>
+      var lbl_hour = [ '1', '2', '3', '4', '5', '6',];
+      var vals = [ 56, 56, 54, 55, 55, 51, 
+                   56, 83, 71, 33,  2, 18, 
+                    0,  0,  0,  0,  0,  3,  
+                    0,  0,  0,  0, 15,  0, ];
+      var lbls = [ 'Label1.', 'Label2', 'Label3', 'Label4',];
+
+      gr.drawLineGraph("LineGraph", lbl_hour, vals);
+      gr.showColorLabelTable("tblLineGraph", lbls, 30);
+    </script>
+    <p>&nbsp;</p>
+    <div class='card'>
+<xmp><script src="https://truemaxdh.github.io/simpleGraph.js/simpleGraph.js">
+</script>
+<div id='LineGraph2' style="width:500; height:300;"></div>
+<p id='tblLineGraph2'></p>
+<script>
+  var gr = new simpleGraph();
+  var lbl_day = [ '20171201', '20171202', '20171203', '20171204',
+   '20171205', '20171206', '20171207', '20171208',];
+  var vals = [	61, 23, 21, 36, 66, 50, 35,  7, 
+                44,  2,  0, 34, 51, 31, 20, 12, 
+                 7,  1,  5,  2, 11,  5,  1,  0, 
+                87, 27, 24, 60,103, 77, 52, 10, ];
+  var lbls = [ 'Label1.', 'Label2', 'Label3', 'Label4',];
+  
+  gr.drawLineGraph("LineGraph2", lbl_day, vals, 
+                   {rotate : -30, w : 45, h : 40});
+  gr.showColorLabelTable("tblLineGraph2", lbls, 30);
+</script></xmp>  
+    </div>
+    <div id='LineGraph2' style="width:500; height:300;"></div>
+	  <p id='tblLineGraph2'></p>
+	  <script>
+		  //var gr = new simpleGraph();
+		  var lbl_day = [ '20171201', '20171202', '20171203', '20171204', '20171205', '20171206', '20171207', '20171208',];
+		  vals = [	61, 23, 21, 36, 66, 50, 35, 7, 44, 2, 0, 34, 51, 31, 20, 12, 7, 1, 5, 2, 11, 5, 1, 0, 87, 27, 24, 60, 103, 77, 52, 10, ];
+		  lbls = [ 'Label1.', 'Label2', 'Label3', 'Label4',];
+		
+		  gr.drawLineGraph("LineGraph2", lbl_day, vals, {rotate : -30, w : 45, h : 40});
+		  gr.showColorLabelTable("tblLineGraph2", lbls, 30);
+	  </script>
+  </div>
+  <p>&nbsp;</p> 
+  
+  <!-- ============= -->
+  <!-- = Pie Graph = -->
+  <!-- ============= -->
+  <div><h2>Pie Graph</h2>
+    <div class='card'>
+<xmp><script src="https://truemaxdh.github.io/simpleGraph.js/simpleGraph.js">
+</script>
+<div id='PieGraph' style="width:300; height:300;"></div>
+<p id='tblPieGraph'></p>
+<script>
+  var gr = new simpleGraph();
+  var vals = [163, 21, 3, 15, 25, 55, ];
+  var lbls = ['label1', 'label2', 'label3', 'label4', 'label5', 'label6'];
+
+  gr.drawPieGraph("PieGraph", vals);
+  gr.showColorLabelValueTable("tblPieGraph", lbls, 30, vals);
+</script></xmp>
+    </div>
+    <div id='PieGraph' style="width:300; height:300;"></div>
+    <p id='tblPieGraph'></p>
+    <script>
+      //var gr = new simpleGraph();
+      /* var */ vals = [163, 21, 3, 15, 25, 55, ];
+      /* var */ lbls = ['label1', 'label2', 'label3', 'label4', 'label5', 'label6'];
+
+      gr.drawPieGraph("PieGraph", lbls, vals);
+      gr.showColorLabelValueTable("tblPieGraph", lbls, 30, vals);
+    </script>
+  </div>
+<!--Google AdSense -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- AutoResponse -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7307479428475282"
+     data-ad-slot="8718898251"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+	</body>
+</html>
